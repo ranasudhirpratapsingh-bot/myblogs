@@ -12,9 +12,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read #This is required for actions/checkout
-
+    defaults:
+      run:
+        working-directory: backend
     steps:
       - uses: actions/checkout@v4
 
@@ -33,8 +33,22 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: .
+          path: backend   
 
+      # Build frontend
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm install
+
+      - name: Build frontend
+        working-directory: frontend
+        run: CI=false npm run build
+
+      - name: Copy frontend build to backend
+        run: |
+          rm -rf backend/build
+          mkdir -p backend/build
+          cp -r frontend/build/* backend/build/
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -47,13 +61,14 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
+          path: backend
       
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_5B68F0C2DD9A40F8BD989CFA6AB2F0D4 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2F9D124A3379420BAD624DB829C77D58 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_C3F82312A2F14173A9609DB86B65E69D }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_812A1303B1E240ADAE2B3A617B777E3E }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_6A15EF5CEF024C85B1B4EA8B5BD0F9C4 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_CF3FFCAED1FA4484B8E20CCDC29EC31B }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -61,5 +76,4 @@ jobs:
         with:
           app-name: 'myblogs'
           slot-name: 'Production'
-          package: .
-          
+          package: ./backend
