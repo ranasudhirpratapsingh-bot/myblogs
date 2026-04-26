@@ -1,3 +1,6 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
 name: Build and deploy Node.js app to Azure Web App - myblogs
 
 on:
@@ -9,9 +12,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
     steps:
       - uses: actions/checkout@v4
 
@@ -20,19 +20,15 @@ jobs:
         with:
           node-version: '24.x'
 
-      - name: npm install, build, and test (backend)
+      # Build Backend
+      - name: npm install, build, and test (Backend)
+        working-directory: backend
         run: |
           npm install
           npm run build --if-present
           npm run test --if-present
 
-      - name: Upload backend artifact for deployment job
-        uses: actions/upload-artifact@v4
-        with:
-          name: node-app
-          path: backend   
-
-      # Build frontend
+      # Build Frontend
       - name: Install frontend dependencies
         working-directory: frontend
         run: npm install
@@ -41,21 +37,27 @@ jobs:
         working-directory: frontend
         run: CI=false npm run build
 
+      # Copy frontend build to backend
       - name: Copy frontend build to backend
         run: |
-          rm -rf backend/build
           mkdir -p backend/build
           cp -r frontend/build/* backend/build/
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-app
+          path: backend
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     permissions:
-      id-token: write
-      contents: read
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
 
     steps:
-      - name: Download backend artifact from build job
+      - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: node-app
@@ -68,7 +70,7 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_6A15EF5CEF024C85B1B4EA8B5BD0F9C4 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_CF3FFCAED1FA4484B8E20CCDC29EC31B }}
 
-      - name: Deploy to Azure Web App
+      - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
