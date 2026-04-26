@@ -1,0 +1,44 @@
+.home-page {
+  width: 100%;
+}
+
+.loading {
+  text-align: center;
+  padding: 50px 20px;
+  font-size: 18px;
+  color: #666;
+}
+
+.error {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  padding: 15px 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.no-blogs {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #e9ecef;
+  border-radius: 8px;
+}
+
+.no-blogs p {
+  font-size: 18px;
+  color: #666;
+  margin: 0;
+}
+
+.blogs-container {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .blogs-container {
+    gap: 15px;
+  }
+}

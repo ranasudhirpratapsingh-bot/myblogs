@@ -1,0 +1,153 @@
+.blog-detail-page {
+  width: 100%;
+}
+
+.blog-detail-container {
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.blog-detail-image {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  background-color: #f0f0f0;
+}
+
+.blog-detail-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.blog-detail-article {
+  padding: 40px;
+}
+
+.blog-title {
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+.blog-detail-meta {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  flex-wrap: wrap;
+  font-size: 14px;
+  color: #666;
+}
+
+.blog-detail-meta .author {
+  font-weight: 600;
+  color: #007bff;
+}
+
+.blog-detail-meta .date {
+  color: #999;
+}
+
+.blog-detail-meta .category {
+  background-color: #e9ecef;
+  padding: 4px 10px;
+  border-radius: 3px;
+  color: #333;
+}
+
+.blog-body {
+  color: #555;
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+.blog-body p {
+  margin-bottom: 20px;
+}
+
+.blog-detail-tags {
+  margin-bottom: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.blog-detail-tags strong {
+  margin-right: 15px;
+  color: #333;
+}
+
+.tag {
+  background-color: #f0f0f0;
+  color: #007bff;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.blog-detail-actions {
+  display: flex;
+  gap: 15px;
+  padding: 30px 40px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  flex-wrap: wrap;
+}
+
+.blog-detail-actions .btn {
+  flex: 1;
+  min-width: 150px;
+  text-align: center;
+}
+
+.error-page {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .blog-detail-image {
+    height: 250px;
+  }
+
+  .blog-detail-article {
+    padding: 20px;
+  }
+
+  .blog-title {
+    font-size: 24px;
+  }
+
+  .blog-detail-meta {
+    gap: 10px;
+    font-size: 12px;
+  }
+
+  .blog-body {
+    font-size: 14px;
+  }
+
+  .blog-detail-actions {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .blog-detail-actions .btn {
+    width: 100%;
+  }
+}
