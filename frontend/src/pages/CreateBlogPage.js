@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import BlogForm from '../components/BlogForm';
 import blogService from '../services/blogService';
 import '../styles/CreateBlogPage.css';
 
 const CreateBlogPage = ({ onBlogCreated }) => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -14,7 +16,10 @@ const CreateBlogPage = ({ onBlogCreated }) => {
     try {
       await blogService.createBlog(blogData);
       alert('Blog posted successfully!');
-      window.location.href = '/';
+      if (onBlogCreated) {
+        onBlogCreated();
+      }
+      navigate('/');
     } catch (err) {
       setError('Failed to create blog. Please try again.');
       console.error(err);

@@ -1,18 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/BlogForm.css';
 
 const BlogForm = ({ onSubmit, initialData = null, onCancel }) => {
-  const [formData, setFormData] = useState(
-    initialData || {
-      title: '',
-      content: '',
-      author: '',
-      category: 'General',
-      tags: '',
-      image: ''
-    }
-  );
+  const [formData, setFormData] = useState({
+    title: '',
+    content: '',
+    author: '',
+    category: 'General',
+    tags: '',
+    image: ''
+  });
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        title: initialData.title || '',
+        content: initialData.content || '',
+        author: initialData.author || '',
+        category: initialData.category || 'General',
+        tags: initialData.tags || '',
+        image: initialData.image || ''
+      });
+    }
+  }, [initialData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -10,26 +10,20 @@ const BlogDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // useEffect(() => {
-  //   fetchBlog();
-  // }, [id]);
-
-    const fetchBlog = useCallback(()=> async () => {
-    try {
-      const data = await blogService.getBlogById(id);
-      setBlog(data);
-    } catch (err) {
-      setError('Failed to load blog');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  }
-  ,[]);
-
- useEffect(() => {
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const data = await blogService.getBlogById(id);
+        setBlog(data);
+      } catch (err) {
+        setError('Failed to load blog');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchBlog();
-  }, [id,fetchBlog]);
+  }, [id]);
 
 
   const formatDate = (date) => {

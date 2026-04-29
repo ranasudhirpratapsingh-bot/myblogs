@@ -11,30 +11,23 @@ const EditBlogPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // useEffect(() => {
-  //   fetchBlog();
-  // }, [id]);
-  
-  
-  const fetchBlog = useCallback(()=> async () => {
-    try {
-      const data = await blogService.getBlogById(id);
-      setBlog({
-        ...data,
-        tags: data.tags ? data.tags.join(', ') : ''
-      });
-    } catch (err) {
-      setError('Failed to load blog for editing');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  
-},[]);
-
   useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const data = await blogService.getBlogById(id);
+        setBlog({
+          ...data,
+          tags: data.tags ? data.tags.join(', ') : ''
+        });
+      } catch (err) {
+        setError('Failed to load blog for editing');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchBlog();
-  }, [id,fetchBlog]);
+  }, [id]);
 
 
   const handleSubmit = async (blogData) => {

@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import BlogCard from '../components/BlogCard';
 import blogService from '../services/blogService';
 import '../styles/HomePage.css';
 
 const HomePage = ({ searchQuery }) => {
+  const navigate = useNavigate();
   const [blogs, setBlogs] = useState([]);
   const [filteredBlogs, setFilteredBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -62,7 +64,7 @@ const HomePage = ({ searchQuery }) => {
   };
 
   const handleEdit = (id) => {
-    window.location.href = `/edit/${id}`;
+    navigate(`/edit/${id}`);
   };
 
   return (
