@@ -7,10 +7,6 @@ const BlogCard = ({ blog, onDelete, onEdit }) => {
   const { user } = useContext(UserContext);
   const isOwner = user && (user.role === 'admin' || blog.userId === user.id);
 
-  const truncateContent = (content, length = 150) => {
-    return content.length > length ? content.substring(0, length) + '...' : content;
-  };
-
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -33,7 +29,7 @@ const BlogCard = ({ blog, onDelete, onEdit }) => {
           <span className="date">{formatDate(blog.createdAt)}</span>
           <span className="category">{blog.category}</span>
         </div>
-        <p className="blog-excerpt">{truncateContent(blog.content)}</p>
+        <p className="blog-excerpt">{blog.content}</p>
         {blog.tags && blog.tags.length > 0 && (
           <div className="blog-tags">
             {blog.tags.map((tag, index) => (
