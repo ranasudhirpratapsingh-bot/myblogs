@@ -25,7 +25,7 @@ function App() {
           </Routes>
         </main>
         <footer className="footer">
-          <p>&copy; 2026 My Blog. All rights reserved.</p>
+          <p>&copy; 2026 My Blog. All rights reserved By Sudhir Kumar.</p>
         </footer>
       </div>
     </Router>
