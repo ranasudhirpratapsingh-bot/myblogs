@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import '../styles/BlogForm.css';
+import { UserContext } from '../context/UserContext';
 
 const BlogForm = ({ onSubmit, initialData = null, onCancel }) => {
+  const { user } = useContext(UserContext);
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -22,8 +24,13 @@ const BlogForm = ({ onSubmit, initialData = null, onCancel }) => {
         tags: initialData.tags || '',
         image: initialData.image || ''
       });
+    } else if (user) {
+      setFormData(prev => ({
+        ...prev,
+        author: user.username
+      }));
     }
-  }, [initialData]);
+  }, [initialData, user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

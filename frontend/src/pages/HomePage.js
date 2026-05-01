@@ -11,7 +11,7 @@ const HomePage = ({ searchQuery }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-   const handleSearch = useCallback(()=> async (query) => {
+  const handleSearch = useCallback(async (query) => {
     if (!query.trim()) {
       setFilteredBlogs(blogs);
       return;
@@ -23,7 +23,7 @@ const HomePage = ({ searchQuery }) => {
     } catch (err) {
       setError('Search failed. Please try again.');
     }
-  },[]);
+  }, [blogs]);
 
   useEffect(() => {
     fetchBlogs();

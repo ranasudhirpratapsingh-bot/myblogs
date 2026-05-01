@@ -22,15 +22,21 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/myblog')
   .catch(err => console.log('MongoDB connection error:', err));
 
 // Import routes
+const currentUserMiddleware = require('./middleware/currentUser');
+const authRoutes = require('./routes/auth');
 const blogRoutes = require('./routes/blogs');
 
 // Routes
+
+app.use(currentUserMiddleware);
+app.use('/api/auth', authRoutes);
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.use('/api/blogs', blogRoutes);
+
 
 // Health check
 app.get('/api/health', (req, res) => {

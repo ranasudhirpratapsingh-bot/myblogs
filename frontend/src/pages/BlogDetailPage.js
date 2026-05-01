@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import blogService from '../services/blogService';
+import { UserContext } from '../context/UserContext';
 import '../styles/BlogDetailPage.css';
 
 const BlogDetailPage = () => {
@@ -9,6 +10,8 @@ const BlogDetailPage = () => {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const { user } = React.useContext(UserContext);
+  const isOwner = user && (user.role === 'admin' || blog?.userId === user.id);
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -24,7 +27,6 @@ const BlogDetailPage = () => {
     };
     fetchBlog();
   }, [id]);
-
 
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString('en-US', {
@@ -85,18 +87,22 @@ const BlogDetailPage = () => {
         </article>
 
         <div className="blog-detail-actions">
-          <button
-            className="btn btn-primary"
-            onClick={() => navigate(`/edit/${id}`)}
-          >
-            Edit Blog
-          </button>
-          <button
-            className="btn btn-danger"
-            onClick={handleDelete}
-          >
-            Delete Blog
-          </button>
+          {isOwner && (
+            <>
+              <button
+                className="btn btn-primary"
+                onClick={() => navigate(`/edit/${id}`)}
+              >
+                Edit Blog
+              </button>
+              <button
+                className="btn btn-danger"
+                onClick={handleDelete}
+              >
+                Delete Blog
+              </button>
+            </>
+          )}
           <button
             className="btn btn-secondary"
             onClick={() => navigate('/')}

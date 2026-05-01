@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/BlogCard.css';
+import { UserContext } from '../context/UserContext';
 
 const BlogCard = ({ blog, onDelete, onEdit }) => {
+  const { user } = useContext(UserContext);
+  const isOwner = user && (user.role === 'admin' || blog.userId === user.id);
+
   const truncateContent = (content, length = 150) => {
     return content.length > length ? content.substring(0, length) + '...' : content;
   };
@@ -38,25 +42,29 @@ const BlogCard = ({ blog, onDelete, onEdit }) => {
           </div>
         )}
         <div className="blog-actions">
-          <Link to={`/blog/${blog._id}`} className="btn btn-small btn-read">
-            Read More
-          </Link>
-          <button
-            className="btn btn-small btn-edit"
-            onClick={() => onEdit(blog._id)}
-          >
-            Edit
-          </button>
-          <button
-            className="btn btn-small btn-delete"
-            onClick={() => {
-              if (window.confirm('Are you sure you want to delete this blog?')) {
-                onDelete(blog._id);
-              }
-            }}
-          >
-            Delete
-          </button>
+          {isOwner && (
+            <>
+              <Link to={`/blog/${blog._id}`} className="btn btn-small btn-read">
+                Read More
+              </Link>
+              <button
+                className="btn btn-small btn-edit"
+                onClick={() => onEdit(blog._id)}
+              >
+                Edit
+              </button>
+              <button
+                className="btn btn-small btn-delete"
+                onClick={() => {
+                  if (window.confirm('Are you sure you want to delete this blog?')) {
+                    onDelete(blog._id);
+                  }
+                }}
+              >
+                Delete
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>

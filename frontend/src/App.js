@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { UserProvider } from './context/UserContext';
 import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import CreateBlogPage from './pages/CreateBlogPage';
@@ -11,8 +12,9 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
-    <Router>
-      <div className="App">
+    <UserProvider>
+      <Router>
+        <div className="App">
         <Header onSearch={setSearchQuery} />
         <main className="main-content">
           <Routes>
@@ -27,6 +29,7 @@ function App() {
         </footer>
       </div>
     </Router>
+    </UserProvider>
   );
 }
 
