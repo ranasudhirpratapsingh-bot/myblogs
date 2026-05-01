@@ -45,7 +45,6 @@ const Header = ({ onSearch }) => {
           <h1>My Blog</h1>
         </Link>
         <nav className="nav-menu">
-          <Link to="/" className="nav-link">Home</Link>
           {user && (
             <Link to="/create" className="nav-link btn btn-nav-primary">
               Write Blog
