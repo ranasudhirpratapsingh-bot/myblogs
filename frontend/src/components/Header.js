@@ -42,7 +42,7 @@ const Header = ({ onSearch }) => {
     <header className="header">
       <div className="header-container">
         <Link to="/" className="logo">
-          <h1>My Blog</h1>
+          <h1>My Blogs</h1>
         </Link>
         <div className="header-right">
           <nav className="nav-menu">
