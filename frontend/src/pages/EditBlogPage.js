@@ -67,15 +67,6 @@ const EditBlogPage = () => {
       />
     </div>
   );
-  return (
-    <div className="edit-blog-page">
-      <BlogForm
-        initialData={blog}
-        onSubmit={handleSubmit}
-        onCancel={handleCancel}
-      />
-    </div>
-  );
 };
 
 export default EditBlogPage;

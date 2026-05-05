@@ -44,14 +44,22 @@ const Header = ({ onSearch }) => {
         <Link to="/" className="logo">
           <h1>My Blog</h1>
         </Link>
-        <nav className="nav-menu">
-          {user && (
-            <Link to="/create" className="nav-link btn btn-nav-primary">
-              Write Blog
-            </Link>
-          )}
-        </nav>
-        <div className="user-controls">
+        <div className="header-right">
+          <nav className="nav-menu">
+            {user && (
+              <>
+                <Link to="/create" className="nav-link btn btn-nav-primary">
+                  Write Blog
+                </Link>
+                {user.role === 'admin' && (
+                  <Link to="/admin" className="nav-link btn btn-nav-secondary">
+                    Admin Panel
+                  </Link>
+                )}
+              </>
+            )}
+          </nav>
+          <div className="user-controls">
           {user ? (
             <>
               <span className="user-label">
@@ -72,6 +80,7 @@ const Header = ({ onSearch }) => {
             </>
           )}
         </div>
+      </div>
       </div>
 
       {showAuth && (
