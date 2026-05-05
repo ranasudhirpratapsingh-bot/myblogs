@@ -112,8 +112,7 @@ const Header = ({ onSearch }) => {
               {!isLogin && (
                 <div className="form-group">
                   <select name="role" value={formData.role} onChange={handleInputChange}>
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
+                    <option value="user">User</option>                   
                   </select>
                 </div>
               )}
