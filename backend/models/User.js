@@ -8,6 +8,12 @@ const userSchema = new mongoose.Schema({
     unique: true,
     trim: true
   },
+  email: {
+    type: String,
+    unique: true,
+    trim: true,
+    lowercase: true
+  },
   password: {
     type: String,
     required: true
@@ -16,6 +22,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['admin', 'user'],
     default: 'user'
+  },
+  bio: {
+    type: String,
+    default: '',
+    maxlength: 500
   },
   createdAt: {
     type: Date,

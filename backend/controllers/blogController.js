@@ -23,9 +23,6 @@ exports.getBlogById = async (req, res) => {
     if (!blog) {
       return res.status(404).json({ error: 'Blog not found' });
     }
-    if (!req.user || !isAuthorized(req, blog)) {
-      return res.status(403).json({ error: 'Not authorized to view this blog' });
-    }
     res.status(200).json(blog);
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -10,6 +10,7 @@ import ContactUsPage from './pages/ContactUsPage';
 import AboutUsPage from './pages/AboutUsPage';
 import PrivacyPage from './pages/PrivacyPage';
 import AdminPage from './pages/AdminPage';
+import ProfilePage from './pages/ProfilePage';
 import './styles/App.css';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
             <Route path="/contact" element={<ContactUsPage />} />
             <Route path="/about" element={<AboutUsPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </main>

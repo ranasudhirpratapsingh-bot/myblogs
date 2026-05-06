@@ -7,7 +7,7 @@ const Header = ({ onSearch }) => {
   const { user, login, register, logout } = useContext(UserContext);
   const [showAuth, setShowAuth] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({ username: '', password: '', role: 'user' });
+  const [formData, setFormData] = useState({ username: '', email: '', password: '', role: 'user' });
   const [error, setError] = useState('');
 
   const handleSearchChange = (e) => {
@@ -28,7 +28,7 @@ const Header = ({ onSearch }) => {
         await register(formData);
       }
       setShowAuth(false);
-      setFormData({ username: '', password: '', role: 'user' });
+      setFormData({ username: '', email: '', password: '', role: 'user' });
     } catch (err) {
       setError(err.response?.data?.error || 'An error occurred');
     }
@@ -50,6 +50,9 @@ const Header = ({ onSearch }) => {
               <>
                 <Link to="/create" className="nav-link btn btn-nav-primary">
                   Write Blog
+                </Link>
+                <Link to="/profile" className="nav-link btn btn-nav-secondary">
+                  Profile
                 </Link>
                 {user.role === 'admin' && (
                   <Link to="/admin" className="nav-link btn btn-nav-secondary">
@@ -99,6 +102,17 @@ const Header = ({ onSearch }) => {
                   required
                 />
               </div>
+              {!isLogin && (
+                <div className="form-group">
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email (optional)"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              )}
               <div className="form-group">
                 <input
                   type="password"

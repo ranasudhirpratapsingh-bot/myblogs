@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import blogService from '../services/blogService';
+import { UserContext } from '../context/UserContext';
 import '../styles/HomePage.css';
 
 const HomePage = ({ searchQuery }) => {
+  const navigate = useNavigate();
+  const { user } = React.useContext(UserContext);
   const [blogs, setBlogs] = useState([]);
   const [filteredBlogs, setFilteredBlogs] = useState([]);
   const [selectedBlog, setSelectedBlog] = useState(null);
@@ -69,6 +73,25 @@ const HomePage = ({ searchQuery }) => {
     });
   };
 
+  const handleEdit = (blogId) => {
+    navigate(`/edit/${blogId}`);
+  };
+
+  const handleDelete = async (blogId) => {
+    if (window.confirm('Are you sure you want to delete this blog?')) {
+      try {
+        await blogService.deleteBlog(blogId);
+        // Refresh blogs
+        await fetchBlogs();
+        if (selectedBlog && selectedBlog._id === blogId) {
+          setSelectedBlog(null);
+        }
+      } catch (err) {
+        alert('Failed to delete blog');
+      }
+    }
+  };
+
   return (
     <div className="home-page">
       {loading && <div className="loading">Loading blogs...</div>}
@@ -98,30 +121,48 @@ const HomePage = ({ searchQuery }) => {
 
           <section className="blog-detail-panel">
             {selectedBlog ? (
-              <article className="blog-detail-card">
-                <h1>{selectedBlog.title}</h1>
-                <div className="blog-meta-row">
-                  <span>By {selectedBlog.author || 'Anonymous'}</span>
-                  <span>{formatDate(selectedBlog.createdAt)}</span>
-                </div>
-                {selectedBlog.image && (
-                  <div className="blog-detail-image">
-                    <img src={selectedBlog.image} alt={selectedBlog.title} />
+              <>
+                <article className="blog-detail-card">
+                  <h1>{selectedBlog.title}</h1>
+                  <div className="blog-meta-row">
+                    <span>By {selectedBlog.author || 'Anonymous'}</span>
+                    <span>{formatDate(selectedBlog.createdAt)}</span>
                   </div>
-                )}
-                <div className="blog-detail-content">
-                  {selectedBlog.content.split('\n').map((paragraph, index) => (
-                    paragraph.trim() && <p key={index}>{paragraph}</p>
-                  ))}
-                </div>
-                {selectedBlog.tags && selectedBlog.tags.length > 0 && (
-                  <div className="blog-tags-row">
-                    {selectedBlog.tags.map((tag, index) => (
-                      <span key={index} className="tag">{tag}</span>
+                  {selectedBlog.image && (
+                    <div className="blog-detail-image">
+                      <img src={selectedBlog.image} alt={selectedBlog.title} />
+                    </div>
+                  )}
+                  <div className="blog-detail-content">
+                    {selectedBlog.content.split('\n').map((paragraph, index) => (
+                      paragraph.trim() && <p key={index}>{paragraph}</p>
                     ))}
                   </div>
+                  {selectedBlog.tags && selectedBlog.tags.length > 0 && (
+                    <div className="blog-tags-row">
+                      {selectedBlog.tags.map((tag, index) => (
+                        <span key={index} className="tag">{tag}</span>
+                      ))}
+                    </div>
+                  )}
+                </article>
+                {user && (user.role === 'admin' || selectedBlog.userId === user.id) && (
+                  <div className="blog-actions">
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => handleEdit(selectedBlog._id)}
+                    >
+                      Edit Blog
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(selectedBlog._id)}
+                    >
+                      Delete Blog
+                    </button>
+                  </div>
                 )}
-              </article>
+              </>
             ) : (
               <div className="no-blogs">
                 <p>Select a blog from the list to view its full content.</p>

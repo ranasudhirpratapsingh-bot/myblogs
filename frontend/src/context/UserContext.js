@@ -5,7 +5,8 @@ export const UserContext = createContext({
   user: null,
   login: () => {},
   register: () => {},
-  logout: () => {}
+  logout: () => {},
+  updateProfile: () => {}
 });
 
 export const UserProvider = ({ children }) => {
@@ -28,6 +29,12 @@ export const UserProvider = ({ children }) => {
     setUser(null);
   };
 
+  const updateProfile = async (profileData) => {
+    const data = await authService.updateProfile(profileData);
+    setUser(data.user);
+    return data;
+  };
+
   useEffect(() => {
     const storedUser = authService.getCurrentUser();
     if (JSON.stringify(storedUser) !== JSON.stringify(user)) {
@@ -36,7 +43,7 @@ export const UserProvider = ({ children }) => {
   }, [user]);
 
   return (
-    <UserContext.Provider value={{ user, login, register, logout }}>
+    <UserContext.Provider value={{ user, login, register, logout, updateProfile }}>
       {children}
     </UserContext.Provider>
   );

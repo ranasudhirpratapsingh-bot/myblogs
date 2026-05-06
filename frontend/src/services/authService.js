@@ -47,6 +47,24 @@ const authService = {
 
   isAuthenticated: () => {
     return !!localStorage.getItem('token');
+  },
+
+  updateProfile: async (profileData) => {
+    try {
+      const token = authService.getToken();
+      const response = await axios.put(`${API_URL}/profile`, profileData, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      if (response.data.user) {
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+      }
+      return response.data;
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      throw error;
+    }
   }
 };
 
